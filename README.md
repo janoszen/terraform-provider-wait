@@ -22,8 +22,8 @@ the directory next to Terraform.
 
 ```hcl-terraform
 data "wait_tcp" "myserver" {
-  host: "127.0.0.1",
-  port: 8080
+  host = "127.0.0.1",
+  port = 8080
 }
 
 resource "your_resource" "test" {
@@ -35,7 +35,7 @@ resource "your_resource" "test" {
 
 ```hcl-terraform
 data "wait_http" "myserver" {
-  url: "http://localhost:8080"
+  url = "http://localhost:8080"
 }
 
 resource "your_resource" "test" {
