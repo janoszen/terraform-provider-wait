@@ -27,7 +27,6 @@ workflows:
             tags:
               ignore: /.*/
       - build-tag:
-          context: terraform-provider-wait
           filters:
             branches:
               ignore: /.*/
