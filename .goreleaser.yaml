@@ -1,0 +1,19 @@
+builds:
+  - main: main.go
+    binary: "terraform-provider-wait_{{.Tag}}"
+    goos:
+      - darwin
+      - linux
+      - windows
+    goarch:
+      - amd64
+    env:
+      - CGO_ENABLED=0
+
+dist: build
+
+release:
+  github:
+    owner: janoszen
+    name: terraform-provider-wait
+  draft: true

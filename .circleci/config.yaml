@@ -1,0 +1,35 @@
+version: 2
+jobs:
+  build-snapshot:
+    docker:
+      - image: circleci/golang:1.14
+    steps: # steps that comprise the `build` job
+      - run: "curl -sfL https://install.goreleaser.com/github.com/goreleaser/goreleaser.sh | sh"
+      - checkout
+      - run: goreleaser build
+      - store_artifacts
+  build-tag:
+    docker:
+      - image: circleci/golang:1.14
+    steps: # steps that comprise the `build` job
+      - run: "curl -sfL https://install.goreleaser.com/github.com/goreleaser/goreleaser.sh | sh"
+      - checkout
+      - run: goreleaser build
+      - run: goreleaser release
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build-snapshot:
+          filters:
+            branches:
+              only: /.*/
+            tags:
+              ignore: /.*/
+      - build-tag:
+          context: terraform-provider-wait
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /.*/
