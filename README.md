@@ -26,7 +26,7 @@ data "wait_tcp" "myserver" {
   port: 8080
 }
 
-data "your_resource" "test" {
+resource "your_resource" "test" {
   depends_on = [data.wait_tcp.myserver]
 }
 ```
@@ -38,7 +38,7 @@ data "wait_http" "myserver" {
   url: "http://localhost:8080"
 }
 
-data "your_resource" "test" {
+resource "your_resource" "test" {
   depends_on = [data.wait_http.myserver]
 }
 ```
