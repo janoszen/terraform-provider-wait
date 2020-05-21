@@ -16,4 +16,3 @@ release:
   github:
     owner: janoszen
     name: terraform-provider-wait
-  draft: true

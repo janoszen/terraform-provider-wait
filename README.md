@@ -2,21 +2,17 @@
 
 This is a provider that helps you wait for certain events to happen in Terraform.
 
+## Download
+
+You can download the latest release [from the releases section](https://github.com/janoszen/terraform-provider-wait/releases).
+
 ## Installation
 
-Currently this provider is only available in source form. To install it you have to have a working Go 
-build environment.
+Unpack the archive for your platform and place it into one of the following directories:
 
-To build:
-
-```
-go build
-```
-
-To run:
-
-Copy the `terraform-provider-wait` or `terraform-provider-wait.exe` file into your project directory or in
-the directory next to Terraform.
+- Directly into your Terraform project directory
+- On Linux and MacOS into `~/.terraform/plugins`
+- On Windows into `%APPDATA%\terraform.d\plugins`
 
 ## Wait for TCP server to become available
 
