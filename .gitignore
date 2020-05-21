@@ -1,0 +1,10 @@
+.terraform*
+*.tfstate
+terraform.tfvars
+terraform.tfstate.backup
+terraform.tfstate.*.backup
+.idea
+*.iml
+crash.log
+terraform-provider-wait.exe
+terraform-provider-wait
