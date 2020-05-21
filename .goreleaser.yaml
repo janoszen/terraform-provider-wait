@@ -1,6 +1,6 @@
 builds:
   - main: main.go
-    binary: "terraform-provider-wait_{{.Tag}}"
+    binary: "terraform-provider-wait"
     goos:
       - darwin
       - linux

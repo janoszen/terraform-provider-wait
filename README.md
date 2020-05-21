@@ -43,4 +43,13 @@ Optional parameters:
 
 - `ca_certificate_pem`: CA certificate of the server in PEM format.
 - `skip_certificate_verify`: Completely skip certificate validation.
+- `expect_status`: Only pass if the HTTP status matches this. Defaults to 200. Set to 0 to skip check.
 - `expect_content`: Only pass if the response contains the expected content.
+
+Response parameters:
+
+- `response_status`: contains the HTTP status code in the response
+- `response_body`: contains the HTTP response body as string
+
+**Note:** certificate validation does not work without `ca_certificate_pem` on Windows due to 
+a bug in Golang ( golang/go#16736 ).

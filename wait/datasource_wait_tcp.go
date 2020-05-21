@@ -23,6 +23,11 @@ func dataSourceTcp() *schema.Resource {
 				Description: "Port number to connect to",
 				Required:    true,
 			},
+			"ip": {
+				Type:        schema.TypeString,
+				Description: "IP address the connection was made to.",
+				Computed:    true,
+			},
 		},
 		Read: dataSourceTcpRead,
 	}
@@ -31,27 +36,31 @@ func dataSourceTcp() *schema.Resource {
 func dataSourceTcpRead(d *schema.ResourceData, meta interface{}) error {
 	ctx, cancel := context.WithTimeout(context.Background(), d.Timeout(schema.TimeoutCreate))
 	defer cancel()
-
+	target := d.Get("host").(string) +
+		":" +
+		strconv.Itoa(d.Get("port").(int))
+	var remoteIp net.Addr
 	for {
 		dialer := net.Dialer{Timeout: time.Second}
-		target := d.Get("host").(string) +
-			":" +
-			strconv.Itoa(d.Get("port").(int))
-		log.Println(fmt.Sprintf("attempting to connect %s...", target))
+
+		log.Println(fmt.Sprintf("attempting to connect %s", target))
 		conn, err := dialer.DialContext(ctx, "tcp", target)
-		log.Println(conn)
 		if err == nil && conn != nil {
+			log.Println(fmt.Sprintf("connection to %s successful", target))
+			remoteIp = conn.RemoteAddr()
 			_ = conn.Close()
 			break
 		} else {
+			log.Println(fmt.Sprintf("connection to %s failed, retrying", target))
 			log.Println(err)
 		}
 		if ctx.Err() != nil {
 			log.Println(ctx.Err())
-			break
+			return ctx.Err()
 		}
-		time.Sleep(time.Second)
+		time.Sleep(10 * time.Second)
 	}
+	d.SetId(remoteIp.String() + ":" + strconv.Itoa(d.Get("port").(int)))
 
-	return nil
+	return d.Set("ip", remoteIp.String())
 }
